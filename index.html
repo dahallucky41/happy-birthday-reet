@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Special Birthday Surprise!</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                  url('https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=1000&auto=format&fit=crop') center/cover no-repeat;
+      text-align: center;
+      overflow: hidden;
+      padding: 20px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 24px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+      max-width: 420px;
+      width: 100%;
+      position: relative;
+    }
+
+    h1 {
+      color: #d63384;
+      margin-bottom: 15px;
+      font-size: 1.7rem;
+    }
+
+    p {
+      color: #444;
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+
+    .photo-frame {
+      width: 100%;
+      max-height: 240px;
+      object-fit: cover;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .btn-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      position: relative;
+      min-height: 70px;
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 12px 28px;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.2s;
+    }
+
+    .btn-yes {
+      background-color: #28a745;
+      color: white;
+      z-index: 2;
+    }
+
+    .btn-yes:hover {
+      background-color: #218838;
+      transform: scale(1.05);
+    }
+
+    .btn-no {
+      background-color: #dc3545;
+      color: white;
+      z-index: 2;
+    }
+
+    .btn-no-moving {
+      position: absolute;
+      transition: all 0.15s ease;
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .gift-box {
+      font-size: 70px;
+      animation: bounce 1s infinite alternate;
+      margin-bottom: 10px;
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-12px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Audio element (plays audio on first click) -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="card">
+    
+    <!-- QUESTION 1 -->
+    <div id="step1" class="screen active">
+      <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=600&auto=format&fit=crop" alt="Love" class="photo-frame">
+      <h1>Question #1 💕</h1>
+      <p>Are you crazy about me?</p>
+      <div class="btn-container">
+        <button class="btn-yes" onclick="startExperience(2)">YES! 😍</button>
+        <button class="btn-no" onclick="nextStep(2)">NO 😜</button>
+      </div>
+    </div>
+
+    <!-- QUESTION 2 -->
+    <div id="step2" class="screen">
+      <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600&auto=format&fit=crop" alt="Party" class="photo-frame">
+      <h1>Question #2 ✨</h1>
+      <p>Is tonight the best night of your life?</p>
+      <div class="btn-container">
+        <button class="btn-yes" onclick="nextStep(3)">YES! 🥳</button>
+        <button class="btn-no" onclick="nextStep(3)">NO 😏</button>
+      </div>
+    </div>
+
+    <!-- QUESTION 3 (MOVING NO BUTTON) -->
+    <div id="step3" class="screen">
+      <h1>Question #3 🎁</h1>
+      <p>Do you want a surprise?</p>
+      <div class="btn-container">
+        <button class="btn-yes" onclick="nextStep(4)">YES! 🎉</button>
+        <button id="noBtn" class="btn-no btn-no-moving">NO 😜</button>
+      </div>
+    </div>
+
+    <!-- QUESTION 4 (HOLIDAY REVEAL CHOICE) -->
+    <div id="step4" class="screen">
+      <h1>Quick Question! ✈️</h1>
+      <p>Are you going on holiday with me?</p>
+      <div class="btn-container">
+        <button class="btn-yes" onclick="nextStep(5)">YES! ❤️</button>
+        <button class="btn-yes" style="background-color: #d63384;" onclick="nextStep(5)">DEFINITELY YES! 🔥</button>
+      </div>
+    </div>
+
+    <!-- FINAL STEP: TASMANIA SURPRISE -->
+    <div id="step5" class="screen">
+      <div class="gift-box">🎂🥳🎈</div>
+      <h1>SURPRISE! ❤️</h1>
+      <img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?q=80&w=600&auto=format&fit=crop" alt="Celebration" class="photo-frame">
+      <p style="font-size: 1.2rem; font-weight: bold; color: #d63384;">You're going to Tasmania with me baby next week!</p>
+      <p style="margin-top: 15px; font-size: 1.1rem;">Happiest Birthday Baby! 🥳✨</p>
+    </div>
+
+  </div>
+
+  <script>
+    const bgMusic = document.getElementById('bgMusic');
+
+    function startExperience(stepNumber) {
+      bgMusic.play().catch(e => console.log("Audio play failed:", e));
+      nextStep(stepNumber);
+    }
+
+    function nextStep(stepNumber) {
+      document.querySelectorAll('.screen').forEach(screen => {
+        screen.classList.remove('active');
+      });
+      document.getElementById('step' + stepNumber).classList.add('active');
+    }
+
+    // Moving "No" button logic for Step 3
+    const noBtn = document.getElementById('noBtn');
+
+    function moveButton() {
+      const container = document.querySelector('.card');
+      const containerRect = container.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      const maxX = containerRect.width - btnRect.width - 40;
+      const maxY = containerRect.height - btnRect.height - 40;
+
+      const randomX = Math.floor(Math.random() * maxX) - (maxX / 2);
+      const randomY = Math.floor(Math.random() * maxY) - (maxY / 2);
+
+      noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    }
+
+    noBtn.addEventListener('mouseover', moveButton);
+    noBtn.addEventListener('touchstart', moveButton);
+  </script>
+</body>
+</html>
