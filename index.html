@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Happiest Birthday Reet!</title>
   <style>
     * {
@@ -17,7 +17,7 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), 
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
                   url('https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=1000&auto=format&fit=crop') center/cover no-repeat;
       text-align: center;
       overflow: hidden;
@@ -25,12 +25,12 @@
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.96);
       backdrop-filter: blur(10px);
       padding: 30px 20px;
       border-radius: 24px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-      max-width: 420px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      max-width: 400px;
       width: 100%;
       position: relative;
     }
@@ -45,19 +45,19 @@
     h2 {
       color: #333;
       margin-bottom: 15px;
-      font-size: 1.4rem;
+      font-size: 1.3rem;
     }
 
     p {
       color: #555;
       margin-bottom: 20px;
       font-size: 1.1rem;
-      line-height: 1.5;
+      line-height: 1.4;
     }
 
     .photo-frame {
       width: 100%;
-      max-height: 220px;
+      height: 200px;
       object-fit: cover;
       border-radius: 16px;
       margin-bottom: 20px;
@@ -68,31 +68,27 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 15px;
+      gap: 20px;
       position: relative;
-      min-height: 80px;
+      min-height: 70px;
       margin-top: 10px;
     }
 
     button {
-      padding: 12px 26px;
+      padding: 12px 28px;
       font-size: 1rem;
       font-weight: bold;
       border: none;
       border-radius: 50px;
       cursor: pointer;
-      transition: transform 0.15s ease;
+      touch-action: manipulation;
     }
 
     .btn-yes {
       background-color: #28a745;
       color: white;
       z-index: 2;
-    }
-
-    .btn-yes:hover {
-      background-color: #218838;
-      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
     }
 
     .btn-no-static {
@@ -106,8 +102,133 @@
       color: white;
       z-index: 10;
       position: absolute;
+      transition: transform 0.15s ease-out;
       touch-action: none;
     }
 
     .screen {
-      
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .gift-box {
+      font-size: 60px;
+      animation: bounce 1s infinite alternate;
+      margin-bottom: 10px;
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-12px); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    
+    <!-- STEP 1: COVER / QUESTION 1 -->
+    <div id="step1" class="screen active">
+      <h1 class="main-title">Happiest Birthday Reet! 🎉</h1>
+      <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=600&auto=format&fit=crop" alt="Love" class="photo-frame">
+      <h2>Question #1 💕</h2>
+      <p>Are you crazy about me?</p>
+      <div class="btn-container">
+        <button class="btn-yes" onclick="nextStep(2)">YES! 😍</button>
+        <button class="btn-no-static" onclick="nextStep(2)">NO 😜</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: QUESTION 2 -->
+    <div id="step2" class="screen">
+      <h2>Question #2 ✨</h2>
+      <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600&auto=format&fit=crop" alt="Party" class="photo-frame">
+      <p>Is tonight the best night of your life?</p>
+      <div class="btn-container">
+        <button class="btn-yes" onclick="nextStep(3)">YES! 🥳</button>
+        <button id="noBtn2" class="btn-no-moving" style="right: 15px;">NO 😏</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: QUESTION 3 -->
+    <div id="step3" class="screen">
+      <h2>Question #3 🎁</h2>
+      <img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=600&auto=format&fit=crop" alt="Gift" class="photo-frame">
+      <p>Do you want a surprise?</p>
+      <div class="btn-container">
+        <button class="btn-yes" onclick="nextStep(4)">YES! 🎉</button>
+        <button id="noBtn3" class="btn-no-moving" style="right: 15px;">NO 😜</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: QUESTION 4 -->
+    <div id="step4" class="screen">
+      <h2>Quick Question! ✈️</h2>
+      <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=600&auto=format&fit=crop" alt="Travel" class="photo-frame">
+      <p>Are you going on holiday with me?</p>
+      <div class="btn-container">
+        <button class="btn-yes" onclick="nextStep(5)">YES! ❤️</button>
+        <button id="noBtn4" class="btn-no-moving" style="right: 15px;">NO 😜</button>
+      </div>
+    </div>
+
+    <!-- STEP 5: FINAL REVEAL -->
+    <div id="step5" class="screen">
+      <div class="gift-box">🎂🥳🎈</div>
+      <h1 class="main-title">SURPRISE! ❤️</h1>
+      <img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?q=80&w=600&auto=format&fit=crop" alt="Celebration" class="photo-frame">
+      <p style="font-size: 1.25rem; font-weight: bold; color: #d63384; margin-bottom: 12px;">
+        You're going to Tasmania with me baby next week! ✈️
+      </p>
+      <p style="font-size: 1rem; color: #444; margin-bottom: 20px;">
+        Headed straight for Cradle Mountain & a coastal cruise adventure!
+      </p>
+      <h2 style="color: #28a745; font-size: 1.5rem; font-weight: bold;">
+        Happiest Birthday Baby! 🥳✨
+      </h2>
+    </div>
+
+  </div>
+
+  <script>
+    function nextStep(stepNumber) {
+      document.querySelectorAll('.screen').forEach(screen => {
+        screen.classList.remove('active');
+      });
+      document.getElementById('step' + stepNumber).classList.add('active');
+    }
+
+    function moveButton(btn) {
+      const card = document.querySelector('.card');
+      const cardRect = card.getBoundingClientRect();
+      const btnRect = btn.getBoundingClientRect();
+
+      const maxX = (cardRect.width / 2) - (btnRect.width / 2) - 20;
+      const maxY = 80;
+
+      const randomX = (Math.random() - 0.5) * (maxX * 2);
+      const randomY = (Math.random() - 0.5) * (maxY * 2);
+
+      btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    }
+
+    ['noBtn2', 'noBtn3', 'noBtn4'].forEach(id => {
+      const btn = document.getElementById(id);
+      if (btn) {
+        const triggerMove = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          moveButton(btn);
+        };
+
+        btn.addEventListener('touchstart', triggerMove, { passive: false });
+        btn.addEventListener('mouseover', triggerMove);
+        btn.addEventListener('click', triggerMove);
+      }
+    });
+  </script>
+</body>
+</html>
